@@ -5,6 +5,8 @@ These LuaATC codes controls a interlocking-based rail yard which serves multiple
 1. To store and repair existing trains; or
 2. To couple trains.
 
+A example can be [downloaded](https://downloads-th2.1f616emo.xyz/advtrains_Lua_Yard.zip).
+
 ## Setting up
 
 ### 1. Set up the interlocking sections and signals
@@ -37,3 +39,11 @@ Find a reasonable point for the entry LuaATC Track. Trains apart from those want
 For each of the tracks in the yards, place a LuaATC track in front of the signal influence point of its exit signal. Copy and paste the contents of `track_start.lua` to them, and change the `YardID` and `TrackID` to the appropriate ones.
 
 Find a reasonable point for the leaving LuaATC Track. All trains leaving the yard MUST circulate on that LuaATC Track. Copy and paste the contents of `track_leaving.lua` to it, and change the `YardID` to your own.
+
+## Usage
+
+This system is operated by routing codes (RCs). The following RC(s) have functions:
+
+1. `<YardID>-T<TrackID>`: Disable auto slot finding and set the train to be entering this track. This is REQUIRED for trains with `CcrOpt-AllowShunt` set.
+2. `CcrOpt-AllowShunt`: Allows the train to go into tracks where other trains were there. This disables auto slot finding.
+3. `CcrOpt-YardAutoCpl`: Couple with existing trains on the track. This will raise an warning if no other trains is on the track.
