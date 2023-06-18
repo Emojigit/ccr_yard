@@ -8,8 +8,11 @@ All the codes should be under the LuaATC environment called "Cato". To install t
 4. Replace every ATC Rails in front of the exit signal of the tracks (with ATC code "I+A1S10EB2;") with LuaATC Rails with the contents of `track_start.lua`. Replace the "TrackID" with the track ID. Track IDs are constructed as "<Level>.<Track>". The ground floor is "1" and the upper floor is "2". Track No. "0" should be "10" in code and Track No. "A" should be "11". Read the signal name (Already in the format of "CcrY-CcF-T<TrackID>") if you are unsure.
 5. Replace the ATC Rail near the entry signal (with ATC code "I+SM;") with a LuaATC Rail with the contents of `track_leaving.lua`.
 
+ALl the LuaATC Rails should be of the same direction as the existing ATC Rails.
+
 To test if it is working:
 
 1. Place a train in a track. Give it the RCs "CcrY-CcF CcrY-CcF-T1.1" to see if the train is eventually returning to the first track of the first floor. Replace "1.1" with any Track ID to test the others.
 2. Place a train in a track. Ensure that there is a train in Track "1.1". Give a train the RCs "CcrY-CcF CcrY-CcF-T1.1 CcrOpt-AllowShunt" to see if the train is eventually entering the first track of the first floor even when a train is inside. Replace "1.1" with any Track ID to test the others.
 3. Place a train in a track. Ensure that there is a train in Track "1.1". Give a train the RCs "CcrY-CcF CcrY-CcF-T1.1 CcrOpt-AllowShunt CcrOpt-YardAutoCpl" to see if the previous train is eventually coupling with the later one. Replace "1.1" with any Track ID to test the others.
+
