@@ -31,14 +31,48 @@ end
 
 -- Key: track ID in str; val: section ID
 -- `search_order` and `panel_pos` can never be a track ID.
+
+-- Data of testing environment
+-- F.YARD.YARDDATA["CcrY-CcF"] = {
+--     ["1"] = 897872,
+--     ["2"] = 689011,
+--     ["3"] = 352623,
+--     ["4"] = 611669,
+--     ["5"] = 575120,
+--     search_order = {"1","2","3","4","5"}, -- Order of searching
+--     panel_pos = POS(-27,9,14),
+-- }
+
+-- Data of real environment on LinuxForks (CcrY-CcF)
 F.YARD.YARDDATA["CcrY-CcF"] = {
-    ["1"] = 897872,
-    ["2"] = 689011,
-    ["3"] = 352623,
-    ["4"] = 611669,
-    ["5"] = 575120,
-    search_order = {"1","2","3","4","5"}, -- Order of searching
-    panel_pos = POS(-27,9,14),
+    ["1.1"]  = 244528,
+    ["1.2"]  = 204861,
+    ["1.3"]  = 430094,
+    ["1.4"]  = 751434,
+    ["1.5"]  = 418639,
+    ["1.6"]  = 299596,
+    ["1.7"]  = 588770,
+    ["1.8"]  = 742722,
+    ["1.9"]  = 528108,
+    ["1.10"] = 535580,
+    ["1.11"] = 722617,
+
+    ["2.1"]  = 730975,
+    ["2.2"]  = 832228,
+    ["2.3"]  = 982226,
+    ["2.4"]  = 188741,
+    ["2.5"]  = 461947,
+    ["2.6"]  = 501657,
+    ["2.7"]  = 849251,
+    ["2.8"]  = 639872,
+    ["2.9"]  = 383000,
+    ["2.10"] = 263266,
+
+    search_order = {
+        "1.1","1.2","1.3","1.4","1.5","1.6","1.7","1.8","1.9","1.10","1.11",
+        "2.1","2.2","2.3","2.4","2.5","2.6","2.7","2.8","2.9","2.10"
+    },
+    panel_pos = nil, -- Not using the panel
 }
 
 F.YARD.FUNC = {}
@@ -123,7 +157,7 @@ F.YARD.FUNC.StartingTrack = function(YardID, TrackID)
     if atc_arrow then
         local StartingTrackSig_id = YardID .. "-T" .. TrackID
         set_route(StartingTrackSig_id, "C")
-        atc_send("A1 SM")
+        atc_send("A1 S6")
     else
         F.YARD.FUNC.UpdatePanel(YardID)
         local cmd_sent = false
