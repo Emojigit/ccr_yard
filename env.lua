@@ -129,28 +129,6 @@ F.YARD.FUNC.EntrySig = function(YardID)
     atc_send("B6")
 end
 
-F.YARD.FUNC.UpdatePanel = function(YardID)
-    local YardData = F.YARD.YARDDATA[YardID]
-    if not (YardData and YardData.panel_pos) then return end -- do not work on not existing yard
-    interrupt_pos(YardData.panel_pos,"update")
-end
-
-F.YARD.FUNC.PanelController = function(YardID)
-    if event.ext_int then
-        if event.message == "update" then
-            local YardData = F.YARD.YARDDATA[YardID]
-            if not (YardData and YardData.search_order) then return end -- do not work on not existing yard
-            local dgl_send_table = {}
-            for _,id in ipairs(YardData.search_order) do
-                local section = YardData[id]
-                local occupancy = section_occupancy(section)
-                dgl_send_table[id] = (occupancy and (#occupancy ~= 0))
-            end
-            digiline_send(YardID .. "PanelMeseconControllers",dgl_send_table)
-        end
-    end
-end
-
 F.YARD.FUNC.StartingTrack = function(YardID, TrackID)
     if not atc_id then return end
     local rc = F.get_rc_safe()
