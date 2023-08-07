@@ -5,7 +5,7 @@ These LuaATC codes controls a interlocking-based rail yard which serves multiple
 1. To store and repair existing trains; or
 2. To couple trains.
 
-A example can be [downloaded](https://downloads-th2.1f616emo.xyz/advtrains_Lua_Yard.zip).
+A example can be [downloaded](https://downloads-th2.1f616emo.xyz/advtrains_Lua_Yard.zip). (UPDATED)
 
 ## Setting up
 
