@@ -30,7 +30,6 @@ Check for the interlocking section IDs (which is an integer) of each tracks. Rep
 2. In the table -
   1. For each track, the Track ID (`string`) MUST be the key, and the interlocking section iD (`number`) MUST be the value.
   2. `search_order` MUST be a number-indexed table in the order of empty slots searching. It SHOULD contain all the avaliable routes.
-  3. `panel_pos` MAY contain the coordinate to the LuaATC Controller/Panel of the monitoring panel. It MUST be `nil` if the panel will not be used.
 
 ### 3. Set up LuaATC Tracks
 
