@@ -4,4 +4,3 @@
 local YardID = "CcrY-CcF"
 
 if atc_arrow then atc_send("SM") end
-F.YARD.FUNC.UpdatePanel(YardID)

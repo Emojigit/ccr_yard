@@ -13,20 +13,21 @@ F.get_rc_safe = function() return get_rc() or "" end
 -- Yard code START --
 F.YARD = {}
 F.YARD.YARDDATA = {}
+F.YARD.LOGS = {}
+F.YARD.LOGS_KEEP = 10
 
 F.YARD.LOG = function(YardID,component,msg)
-    print(string.format("[%s %s]: %s",
-        YardID, component, msg
-    ))
+    if not F.YARD.LOGS[YardID] then F.YARD.LOGS[YardID] = {} end
+    table.insert(F.YARD.LOGS[YardID],{component,msg})
+    if #F.YARD.LOGS[YardID] > F.YARD.LOGS_KEEP then
+        repeat
+            table.remove(F.YARD.LOGS[YardID],1)
+        until #F.YARD.LOGS[YardID] <= F.YARD.LOGS_KEEP
+    end
 end
 
-local YARD_DEBUG = false
-if YARD_DEBUG then
-    F.YARD.DEBUG = function(YardID,msg)
-        F.YARD.LOG(YardID, "DEBUG", msg)
-    end
-else
-    F.YARD.DEBUG = function() end
+F.YARD.DEBUG = function(YardID,msg)
+    F.YARD.LOG(YardID, "DEBUG", msg)
 end
 
 -- Key: track ID in str; val: section ID
@@ -93,7 +94,6 @@ F.YARD.FUNC.EntrySig = function(YardID)
     for _,id in ipairs(YardData.search_order) do
         if F.has_rc(YardID .. "-T" .. id,rc) then
             -- Force the train to be in that track
-            F.YARD.DEBUG(YardID,"Found RC to track: " .. id)
             track = id
             break
         end
@@ -103,17 +103,18 @@ F.YARD.FUNC.EntrySig = function(YardID)
             local section = YardData[id]
             local occupancy = section_occupancy(section)
             if not (occupancy and (#occupancy ~= 0)) then
-                F.YARD.DEBUG(YardID,"Assigned empty track:" .. id)
                 track = id
                 break
             end
         end
     end
 
-    if not track then
-        F.YARD.LOG(YardID, "EntrySig",
-            string.format("Cannot assign any tracks to train %d (RC: %s). Please visit the yard to solve the problem.",
-                atc_id, rc
+    if track then
+        F.YARD.LOG(YardID,"Entry",string.format("%d -> %d",atc_id,track))
+    else
+        F.YARD.LOG(YardID, "Entry",
+            string.format("%d assign failed",
+                atc_id
         ))
         return
     end
@@ -135,9 +136,8 @@ F.YARD.FUNC.StartingTrack = function(YardID, TrackID)
     if atc_arrow then
         local StartingTrackSig_id = YardID .. "-T" .. TrackID
         set_route(StartingTrackSig_id, "C")
-        atc_send("A1 S6")
+        atc_send("A1 SM")
     else
-        F.YARD.FUNC.UpdatePanel(YardID)
         local cmd_sent = false
         if F.has_rc("CcrOpt-YardAutoCpl",rc) then
             local YardData = F.YARD.YARDDATA[YardID]
@@ -153,9 +153,9 @@ F.YARD.FUNC.StartingTrack = function(YardID, TrackID)
                         break
                     end
                     if not cmd_sent then
-                        F.YARD.LOG(YardID, "StartingTrack-" .. TrackID,
-                            string.format("Train %d (RC: %s) have CcrOpt-YardAutoCpl set but no other trains on track. Ignored.",
-                                atc_id, rc
+                        F.YARD.LOG(YardID, "Start" .. TrackID,
+                            string.format("%d Cpl: no others",
+                                atc_id
                             )
                         )
                     end
@@ -166,5 +166,13 @@ F.YARD.FUNC.StartingTrack = function(YardID, TrackID)
             atc_send("B3")
         end
     end
+end
+
+F.YARD.FUNC.DumpLog = function(YardIDs) -- YardIDs: table of Yards to be viewed
+    local RTN = {}
+    for _,k in ipairs(YardIDs) do
+        RTN[k] = F.YARD.LOGS[k] or {}
+    end
+    return RTN
 end
 -- Yard code END --

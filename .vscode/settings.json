@@ -7,6 +7,8 @@
         "atc_id",
         "section_occupancy",
         "set_route",
-        "atc_send"
+        "atc_send",
+        "digiline_send",
+        "mem"
     ]
 }
