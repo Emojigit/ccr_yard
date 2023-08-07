@@ -1,0 +1,12 @@
+{
+    "Lua.diagnostics.globals": [
+        "F",
+        "get_rc",
+        "event",
+        "atc_arrow",
+        "atc_id",
+        "section_occupancy",
+        "set_route",
+        "atc_send"
+    ]
+}
